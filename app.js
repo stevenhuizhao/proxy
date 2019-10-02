@@ -4,7 +4,7 @@ const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 3002;
 
-app.get('/api/autocomplete/:query', (req, res) => {
+app.get('/api/autocomplete/', (req, res) => {
     res.setHeader('Content-Type', 'application/json');
     const endpoint =`${process.env.ENDPOINT}?app_id=${process.env.APP_ID}&app_code=${process.env.APP_CODE}&query=${req.params.query}&beginHighlight=<b>&endHighlight=</b>&country=AUS&maxresults=5`;
     axios({
