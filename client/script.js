@@ -61,7 +61,3 @@ const setInputValue = element => {
   document.getElementById('autocomplete-dropdown-items').innerHTML = '';
   document.getElementById('dropdown-menu').classList.add('is-hidden');
 }
-
-const testAlert = () => {
-  alert('test');
-}
