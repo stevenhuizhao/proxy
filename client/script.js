@@ -1,22 +1,34 @@
+
 (function() {
-    document.getElementById('auto-complete-input').addEventListener('keyup',(element)=>{
-        debounce(remoterCall,300)(element.target.value);
-    })
+    document.getElementById('autocomplete-input').addEventListener('keyup',(element)=>{
+      document.getElementById('autocomplete-control').classList.add('is-loading');  
+      debounce(fireSearch,1000)(element.target.value);
+    });
+    const fireSearch = async(input) => {
+      document.getElementById('autocomplete-dropdown-items').innerHTML = '';
+      document.getElementById('dropdown-menu').classList.add('is-hidden');
+
+      const response = await remoterCall(input)
+      document.getElementById('autocomplete-control').classList.remove('is-loading');
+
+      if(!response.suggestions){
+        document.getElementById('dropdown-menu').classList.add('is-hidden');
+        return;
+      }
+      response.suggestions.forEach(element => {
+        document.getElementById('dropdown-menu').classList.remove('is-hidden');
+        document.getElementById('autocomplete-dropdown-items').insertAdjacentHTML('beforeend', `
+        <a href="#" onclick="setInputValue(this)" class="dropdown-item">
+            ${element.label}
+        </a>
+        `)
+      });
+      
+    }
 
     async function remoterCall(input){
-        document.getElementById('dropdown-content').innerHTML = '';
-        var response = await fetch(`http://autocomplete.geocoder.api.here.com/6.2/suggest.json?app_id=c2NaQFDA4Z8RgPb7ymQi&app_code=tW2AcIJC1znWusv4LZ32SA&query=${input}&beginHighlight=<b>&endHighlight=</b>&country=AUS&maxresults=5`)
-        var responseJson = await response.json();
-        if(!responseJson.suggestions){
-            return;
-        }
-        responseJson.suggestions.forEach(element => {
-            document.getElementById('dropdown-content').insertAdjacentHTML('beforeend', `
-            <a href="#" class="dropdown-item">
-                ${element.label}
-            </a>
-            `)
-        });
+        const response = await fetch(`/api/autocomplete/${input}`);
+        return await response.json();
     }
     var inThrottle;
     var inDebounce;
@@ -43,3 +55,13 @@
         }
       }
 }());
+
+const setInputValue = element => {
+  document.getElementById('autocomplete-input').value = element.innerText;
+  document.getElementById('autocomplete-dropdown-items').innerHTML = '';
+  document.getElementById('dropdown-menu').classList.add('is-hidden');
+}
+
+const testAlert = () => {
+  alert('test');
+}
