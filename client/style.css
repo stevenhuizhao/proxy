@@ -1,7 +1,8 @@
-.dropdown {
+.autocomplete {
     display: block;
 }
-.dropdown-menu {
+
+.autocomplete__selection-container, .autocomplete__selection-items {
     width: 100%;
     padding-top: 0;
 }
