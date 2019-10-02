@@ -7,6 +7,7 @@
   const fireSearch = async (input) => {
     document.getElementById('autocomplete-dropdown-items').innerHTML = '';
     document.getElementById('dropdown-menu').classList.add('is-hidden');
+    document.getElementById('autocomplete-control').classList.remove('is-loading');
 
     const response = await remoterCall(input);
     document.getElementById('autocomplete-control').classList.remove('is-loading');
