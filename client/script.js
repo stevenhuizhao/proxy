@@ -27,7 +27,7 @@
   }
 
   async function remoterCall(input) {
-    const response = await fetch(`/api/autocomplete/:query=${input}`);
+    const response = await fetch(`/api/autocomplete/${input}`);
     return await response.json();
   }
   var inThrottle;
