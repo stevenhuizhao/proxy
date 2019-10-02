@@ -1,5 +1,5 @@
 const express = require('express');
-const router = require('router')
+const router = require('./router.js')
 require('dotenv').config()
 const app = express();
 const PORT = process.env.PORT || 3001
